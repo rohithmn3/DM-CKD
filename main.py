@@ -9,6 +9,8 @@ from sklearn.metrics import classification_report
 
 from sklearn.svm import SVC
 
+from sklearn.ensemble import RandomForestClassifier
+
 #Function to import my pre-processed dataset
 def importData():
     processed_data = pd.read_csv(r"C:\Users\I346327\Desktop\Assignment_BLR\preprocessed.csv", sep=',', header=0)
@@ -52,6 +54,12 @@ def trainUsingSVM(x_train, y_train):
     #print(classification_SVM_model)
     return classification_SVM_model
 
+def trainUsingRandomForest(x_train, y_train):
+    classification_RF_model = RandomForestClassifier(n_estimators=100)
+    classification_RF_model.fit(x_train, y_train)
+    #print(classification_RF_model)
+    return classification_RF_model
+
 def prediction(x_test, classification_object):
     y_pred = classification_object.predict(x_test)
     return y_pred
@@ -70,6 +78,7 @@ def main():
     classification_gini_model = trainUsingGini(x_train, y_train)
     classification_entropy_model = trainUsingEntropy(x_train, y_train)
     classification_SVM_model = trainUsingSVM(x_train, y_train)
+    classification_RF_model = trainUsingRandomForest(x_train, y_train)
     
     print("\n Results Using Gini Index:")
     y_pred_gini = prediction(x_test, classification_gini_model)
@@ -83,7 +92,10 @@ def main():
     y_pred_SVM = prediction(x_test, classification_SVM_model)
     calculate_accuracy(y_test, y_pred_SVM)
     
+    print("\n Results Using Random Forest:")
+    y_pred_RF = prediction(x_test, classification_RF_model)
+    calculate_accuracy(y_test, y_pred_RF)
+    
     
 if __name__=="__main__":
     main()
-    
